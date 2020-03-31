@@ -1,6 +1,9 @@
 from utils import getBoundary
 import glob.glob
 import numpy as np
+import argparse
+import os
+import sys
 
 def _single_case(image, mask, density=0.1):
     boundary = getBoundary(mask)
@@ -44,22 +47,15 @@ def get_args():
     parser.add_argument('-d', '--point-density', metavar='D', type=float, nargs='?', default=0.1,
                         help='Point Density', dest='pointdensity')
     parser.add_argument('-o', '--output', metavar='O', type=str, nargs='?', default="./data/points_train/points.npy",
-                        help='Output', dest='o')
+                        help='Output', dest='ouput')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = get_args()
     
-    net.to(device=device)
-
     try:
-        train_net(net=net,
-                  epochs=args.epochs,
-                  batch_size=args.batchsize,
-                  lr=args.lr,
-                  device=device,
-                  val_percent=args.val / 100)
+        preprocess(args.pointdensity,args.output)
     except KeyboardInterrupt:
         try:
             sys.exit(0)

@@ -7,9 +7,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch import optim
-from tqdm import tqdm
 
-from model import MLP
+from models.MLP import MLP
 
 from torch.utils.tensorboard import SummaryWriter
 from utils.dataset import BasicDataset
@@ -27,6 +26,7 @@ def train_net(net,
               val_percent=0.1,
               save_cp=True,
               ):
+    pass
     
 def get_args():
     parser = argparse.ArgumentParser(description='Train the PointRender on images and pre-processed labels',
@@ -48,8 +48,8 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    
-    net = MLP(input_voxel = 1, n_classes = 3)
+
+    net = MLP(1,3)
 
     if args.load:
         net.lead_state_dict(

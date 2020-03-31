@@ -27,7 +27,7 @@ def getBoundary(mask, extend_edge = False, nn=1):
     return binarized
 
 def _testRenderForLung(voxel_value):
-    
+    pass
 
 def pointRend(image, points_to_rend, render):
     '''
