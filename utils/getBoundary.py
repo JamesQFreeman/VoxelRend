@@ -12,24 +12,16 @@ def timer(func):
     return f
 
 @timer
-def _gaussian(edge,nn):
-    return ndimage.gaussian_filter(edge,sigma=nn*2+1)
+def torchGetBoundary(mask,boundary_width):
+    max_pool = torch.nn.MaxPool3d(boundary_width,1)
+    avg_pool = torch.nn.AvgPool3d(boundary_width,1)
+    return max_pool(mask) - avg_pool(mask)
 
 @timer
-def _getEdge(mask):
-    return ndimage.sobel(mask,1)+ndimage.sobel(mask,2)+ndimage.sobel(mask,0)
-
-@timer
-def getBoundary(mask, extend_edge = False, nn=1):
-    '''
-    parameter:
-        mask: 2d or 3d array
-        extend_edge: bool, if True then the edge will be extend
-        nn: int, how much the edge line will be extend when the extend_edge is True
-    return:
-        array, which have the same size as the mask, and edge voxels are labeled as 1 while rest are 0
-    '''
-    edge = _getEdge(mask)
-    if extend_edge: edge = _gaussian(edge,nn)
-    binarized_boundary = (edge > 0).astype(np.int_)
-    return binarized_boundary
+def getBoundary(mask, boundary_width):
+    assert boundary_width%2 == 1, "Boundary width should be odd number, now getting {}".format(boundary_width)
+    mask = np.pad(mask,(boundary_width)//2)
+    mask = torch.unsqueeze(torch.from_numpy(mask),0)
+    edge = torchGetBoundary(mask,boundary_width)
+    binarized = torch.squeeze((edge > 0))
+    return binarized.numpy().astype(np.int_)

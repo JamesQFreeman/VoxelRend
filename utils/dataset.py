@@ -21,9 +21,10 @@ class BasicDataset(Dataset):
         return len(self.ids)
 
     @classmethod
-    def preprocess(cls, pil_img):
-
-        img_nd = np.array(pil_img)
+    def preprocess(cls, sitk_img):
+        
+        img_nd = sitk.GetArrayFromImage(sitk_img)
+        # img_nd = np.array(sitk_img)
 
         if len(img_nd.shape) == 3:
             img_nd = np.expand_dims(img_nd, axis=3)

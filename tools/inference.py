@@ -16,56 +16,50 @@ dir_img = "data/images/"
 dir_mask = "data/labels/"
 dir_checkpoints = "checkpoints/"
 
-def inference(net,
-              device,
-              epochs=100,
-              batch_size=32,
-              lr=0.001,
-              val_percent=0.1,
-              save_cp=True,
+
+def inference(mode,
+              weight_file,
+              output_dir
               ):
+    
+    if mode == 'threshold':
+        threshold_inference(output_dir)
+    elif mode == 'MLP':
+        pass
+    else:
+        raise ValueError("only support threshold and MLP for now")
     pass
     
 def get_args():
     parser = argparse.ArgumentParser(description='Train the PointRender on images and pre-processed labels',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-e', '--epochs', metavar='E', type=int, default=5,
-                        help='Number of epochs', dest='epochs')
-    parser.add_argument('-b', '--batch-size', metavar='B', type=int, nargs='?', default=1,
-                        help='Batch size', dest='batchsize')
-    parser.add_argument('-l', '--learning-rate', metavar='LR', type=float, nargs='?', default=0.1,
-                        help='Learning rate', dest='lr')
+
+    parser.add_argument('-m', '--mode', metavar='M', type=str, nargs='?', default='threshold',
+                        help='Mode', dest='mode')
     parser.add_argument('-f', '--load', dest='load', type=str, default=False,
                         help='Load model from a .pth file')
-    parser.add_argument('-v', '--validation', dest='val', type=float, default=10.0,
-                        help='Percent of the data that is used as validation (0-100)')
+    parser.add_argument('-o', '--output-dir', dest='outputdir', type=str, default='results/',
+                        help='The output path')
 
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = get_args()
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    #device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    net = MLP(1,3)
+    #net = MLP(1,3)
 
-    if args.load:
-        net.lead_state_dict(
-            torch.load(args.load, map_location=device)
-        )
+    #if args.load:
+    #    net.lead_state_dict(
+    #        torch.load(args.load, map_location=device)
+    #    )
 
-    net.to(device=device)
+    #net.to(device=device)
 
     try:
-        train_net(net=net,
-                  epochs=args.epochs,
-                  batch_size=args.batchsize,
-                  lr=args.lr,
-                  device=device,
-                  val_percent=args.val / 100)
+        inference(args.mode, args.weight_file, args.output_dir)
     except KeyboardInterrupt:
-        torch.save(net.state_dict(), 'INTERRUPTED.pth')
-        logging.info('Saved interrupt')
         try:
             sys.exit(0)
         except SystemExit:
