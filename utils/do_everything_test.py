@@ -5,6 +5,9 @@ import torch
 import argparse
 import SimpleITK as sitk
 
+
+# This is a test
+
 def timer(func):
     def f(*args, **kwargs):
         before = time()
