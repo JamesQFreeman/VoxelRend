@@ -3,25 +3,6 @@ import sys
 import glob
 from typing import List
 
-# this direction store the results
-# result
-#       id
-#           prob_2.mhd // This is the prob
-#           seg.nii.gz // Seg
-COARSE_DIRECTION_RESULT_DIR = '/data1/shengwang/result'
-
-
-# The data consist of several fold
-# which should be
-# covid
-#       2019-nCov1
-#           id
-#               thin.nii.gz // this is the image
-#               2019_ncov_final.nii.gz // this is the label
-#           ...
-#       2019-nCov2
-#           ...
-ORIGINAL_DATA_DIR = '/home/shengwang/covid'
 
 # every data can be seperated to {Image, Label, CoarseSegFloat, CoarseSegBoolean, FoldNum},
 # and annoted with an id
@@ -95,8 +76,8 @@ class Dataset():
 
         # Now we should get all the id and initialize Data object for them
         self.dataset = {}
-        id_list = [x[0] for x in img_list]
-        for _id in id_list:
+        self.id_list = [x[0] for x in img_list]
+        for _id in self.id_list:
             self.dataset[_id] = Data()
 
         # Now we set them
@@ -117,8 +98,8 @@ class Dataset():
             _id, seg_b_dir = item
             self.dataset[_id].setCoarseSegBool(seg_b_dir)
 
-        print('A VoxelRend Dataset have been initialized from {} and {}'\
-            .format(data_dir, res_dir))
+        print('A VoxelRend Dataset have been initialized from {} and {}'
+              .format(data_dir, res_dir))
         print('Consist of {} cases in total.'.format(len(img_list)))
         print('{} of them have coarse segmentation'.format(len(seg_b_list)))
 
@@ -127,17 +108,31 @@ class Dataset():
         l = d.split('/')
         return [l[-3], l[-2], l[-1]]
 
+    def getIdList(self):
+        return self.id_list
+
     def getImage(self, _id):
-        return img
+        if (img := self.dataset[_id].img) is not None:
+            return img
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
 
     def getLabel(self, _id):
-        pass
+        if (label := self.dataset[_id].label) is not None:
+            return label
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
 
     def getSegPossibility(self, _id):
-        pass
+        if (coarse_seg_float := self.dataset[_id].coarse_seg_float) is not None:
+            return coarse_seg_float
+        else:
+            raise ValueError(
+                '{} is not a valid patient id or {} had no seg result'.format(_id, _id))
 
     def getSeg(slef, _id):
-        pass
-
-
-Dataset(ORIGINAL_DATA_DIR, COARSE_DIRECTION_RESULT_DIR)
+        if (coarse_seg_bool := self.dataset[_id].coarse_seg_bool) is not None:
+            return coarse_seg_bool
+        else:
+            raise ValueError(
+                '{} is not a valid patient id or {} had no seg result'.format(_id, _id))
