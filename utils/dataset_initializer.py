@@ -97,7 +97,7 @@ class Dataset():
         self.dataset = {}
         id_list = [x[0] for x in img_list]
         for _id in id_list:
-            dataset[_id] = Data()
+            self.dataset[_id] = Data()
 
         # Now we set them
         for item in img_list:
