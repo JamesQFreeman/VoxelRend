@@ -112,26 +112,30 @@ class Dataset():
         return self.id_list
 
     def getImage(self, _id):
-        if (img := self.dataset[_id].img) is not None:
+        img = self.dataset[_id].img
+        if img is not None:
             return img
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
     def getLabel(self, _id):
-        if (label := self.dataset[_id].label) is not None:
+        label = self.dataset[_id].label
+        if label is not None:
             return label
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
     def getSegPossibility(self, _id):
-        if (coarse_seg_float := self.dataset[_id].coarse_seg_float) is not None:
+        coarse_seg_float = self.dataset[_id].coarse_seg_float
+        if coarse_seg_float is not None:
             return coarse_seg_float
         else:
             raise ValueError(
                 '{} is not a valid patient id or {} had no seg result'.format(_id, _id))
 
     def getSeg(slef, _id):
-        if (coarse_seg_bool := self.dataset[_id].coarse_seg_bool) is not None:
+        coarse_seg_bool = self.dataset[_id].coarse_seg_bool
+        if coarse_seg_bool is not None:
             return coarse_seg_bool
         else:
             raise ValueError(
