@@ -53,7 +53,7 @@ print('\n\nIn this unit test we confirm the all the getImage() are working corre
 pid_list = vr_ds.getIdList()
 ds_size = len(pid_list)
 for pid in range(ds_size//10):
-    _pid = pid_list[pid*100]
+    _pid = pid_list[pid*10]
     im_array = ReadNiiToArray(vr_ds.getImage(_pid))
     print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
@@ -62,7 +62,7 @@ print('\n\nIn this unit test we confirm the all the getLabel() are working corre
 pid_list = vr_ds.getIdList()
 ds_size = len(pid_list)
 for pid in range(ds_size//10):
-    _pid = pid_list[pid*100]
+    _pid = pid_list[pid*10]
     im_array = ReadNiiToArray(vr_ds.getLabel(_pid))
     print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
@@ -72,7 +72,7 @@ print('\n\nIn this unit test we confirm the all the getSegPossibility() are work
 pid_list = vr_ds.getIdList()
 ds_size = len(pid_list)
 for pid in range(ds_size//10):
-    _pid = pid_list[pid*100]
+    _pid = pid_list[pid*10]
     im_array = ReadNiiToArray(vr_ds.getSegPossibility(_pid))
     print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
@@ -82,7 +82,7 @@ print('\n\nIn this unit test we confirm the all the getSeg() are working correct
 pid_list = vr_ds.getIdList()
 ds_size = len(pid_list)
 for pid in range(ds_size//10):
-    _pid = pid_list[pid*100]
+    _pid = pid_list[pid*10]
     im_array = ReadNiiToArray(vr_ds.getSeg(_pid))
     print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
