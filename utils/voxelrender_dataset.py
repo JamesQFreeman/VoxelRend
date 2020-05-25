@@ -112,9 +112,9 @@ class Dataset():
         return self.id_list
 
     def getImage(self, _id):
-        img = self.dataset[_id].img
-        if img is not None:
-            return img
+        image = self.dataset[_id].image
+        if image is not None:
+            return image
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
