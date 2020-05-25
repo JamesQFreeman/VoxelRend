@@ -101,7 +101,8 @@ class Dataset():
         print('A VoxelRend Dataset have been initialized from {} and {}'
               .format(data_dir, res_dir))
         print('Consist of {} cases in total.'.format(len(img_list)))
-        print('{} of them have coarse segmentation'.format(len(seg_b_list)))
+        print('{} of them have manual label.'.format(len(label_list)))
+        print('{} of them have coarse segmentation.'.format(len(seg_b_list)))
 
     def _splitLastThreeDir(self, d: str) -> List[str]:
         # get some dir and return the last three dir/file
@@ -110,6 +111,14 @@ class Dataset():
 
     def getIdList(self):
         return self.id_list
+
+    def getLabeledIdList(self):
+        raise NotImplementedError("not implemented")
+        pass
+
+    def getCoarseSegIdList(self):
+        raise NotImplementedError("not implemented")
+        pass
 
     def getImage(self, _id):
         image = self.dataset[_id].image
@@ -147,3 +156,22 @@ class Dataset():
         else:
             raise ValueError(
                 '{} is not a valid patient id or {} had no seg result'.format(_id, _id))
+
+    def setLabel(self, _id, path):
+        if self.dataset[_id] is not None:
+            self.dataset[_id].label = path
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
+
+    def setSegPossibility(self,_id):
+        if self.dataset[_id] is not None:
+            self.dataset[_id].coarse_seg_float = path
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
+
+    def setSeg(self,_id):
+        if self.dataset[_id] is not None:
+            self.dataset[_id].coarse_seg_bool = path
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
+        pass
