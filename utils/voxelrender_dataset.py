@@ -119,7 +119,7 @@ class Dataset():
             raise ValueError('{} is not a valid patient id'.format(_id))
 
     def getFoldNum(self, _id):
-        FoldNum = self.dataset[_id].FoldNum
+        FoldNum = self.dataset[_id].fold_num
         if FoldNum is not None:
             return FoldNum
         else:
