@@ -111,10 +111,17 @@ class Dataset():
     def getIdList(self):
         return self.id_list
 
-    def getImage(self, _id):
+    def getFoldNum(self, _id):
         img = self.dataset[_id].img
         if img is not None:
             return img
+        else:
+            raise ValueError('{} is not a valid patient id'.format(_id))
+
+    def getImage(self, _id):
+        FoldNum = self.dataset[_id].FoldNum
+        if FoldNum is not None:
+            return FoldNum
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
