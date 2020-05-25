@@ -1,5 +1,6 @@
 from voxelrender_dataset import Dataset
 import SimpleITK as sitk
+import pickle
 # this direction store the results
 # result
 #       id
@@ -24,19 +25,21 @@ vr_ds = Dataset(ORIGINAL_DATA_DIR, COARSE_DIRECTION_RESULT_DIR)
 
 # patient ID is annoted as pid
 # In this unit test we confirm the all the id are correct
-print('\n\nIn this unit test we confirm the all the id are correct')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    print(pid_list[pid*10])
+def unitTestGetIdList():
+    print('\n\nIn this unit test we confirm the all the id are correct')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        print(pid_list[pid*10])
 
 # In this unit test we confirm the all the getFoldNum() are working correctly
-print('\n\nIn this unit test we confirm the all the getFoldNum() are working correctly')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    _pid = pid_list[pid*10]
-    print('from {} we got {}'.format(vr_ds.getFoldNum(_pid), _pid))
+def unitTestGetFoldNum():
+    print('\n\nIn this unit test we confirm the all the getFoldNum() are working correctly')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        _pid = pid_list[pid*10]
+        print('from {} we got {}'.format(vr_ds.getFoldNum(_pid), _pid))
 
 
 def writeArrayToNii(array, filename):
@@ -49,40 +52,53 @@ def ReadNiiToArray(filename):
 
 
 # In this unit test we confirm the all the getImage() are working correctly
-print('\n\nIn this unit test we confirm the all the getImage() are working correctly')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    _pid = pid_list[pid*10]
-    im_array = ReadNiiToArray(vr_ds.getImage(_pid))
-    print('Image shape: {} from {}'.format(im_array.shape, _pid))
+def unitTestGetImage():
+    print('\n\nIn this unit test we confirm the all the getImage() are working correctly')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        _pid = pid_list[pid*10]
+        im_array = ReadNiiToArray(vr_ds.getImage(_pid))
+        print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
 # In this unit test we confirm the all the getLabel() are working correctly
-print('\n\nIn this unit test we confirm the all the getLabel() are working correctly')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    _pid = pid_list[pid*10]
-    im_array = ReadNiiToArray(vr_ds.getLabel(_pid))
-    print('Image shape: {} from {}'.format(im_array.shape, _pid))
+def unitTestGetLabel():
+    print('\n\nIn this unit test we confirm the all the getLabel() are working correctly')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        _pid = pid_list[pid*10]
+        im_array = ReadNiiToArray(vr_ds.getLabel(_pid))
+        print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
 
 # In this unit test we confirm the all the getSegPossibility() are working correctly
-print('\n\nIn this unit test we confirm the all the getSegPossibility() are working correctly')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    _pid = pid_list[pid*10]
-    im_array = ReadNiiToArray(vr_ds.getSegPossibility(_pid))
-    print('Image shape: {} from {}'.format(im_array.shape, _pid))
+def unitTestGetSegPossibility():
+    print('\n\nIn this unit test we confirm the all the getSegPossibility() are working correctly')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        _pid = pid_list[pid*10]
+        im_array = ReadNiiToArray(vr_ds.getSegPossibility(_pid))
+        print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
 
 # In this unit test we confirm the all the getSeg() are working correctly
-print('\n\nIn this unit test we confirm the all the getSeg() are working correctly')
-pid_list = vr_ds.getIdList()
-ds_size = len(pid_list)
-for pid in range(ds_size//10):
-    _pid = pid_list[pid*10]
-    im_array = ReadNiiToArray(vr_ds.getSeg(_pid))
-    print('Image shape: {} from {}'.format(im_array.shape, _pid))
+def unitTestGetSeg():
+    print('\n\nIn this unit test we confirm the all the getSeg() are working correctly')
+    pid_list = vr_ds.getIdList()
+    ds_size = len(pid_list)
+    for pid in range(ds_size//10):
+        _pid = pid_list[pid*10]
+        im_array = ReadNiiToArray(vr_ds.getSeg(_pid))
+        print('Image shape: {} from {}'.format(im_array.shape, _pid))
 
+def unitTestSaveAndLoad():
+    pickle.dump(vr_ds,open('vr_dataset','wb'))
+    print('save succ')
+    print('length of the saved dataset is {}'.format(len(vr_ds.getIdList())))
+    new_vr_ds = pickle.load(open('vr_dataset','rb'))
+    print('load succ')
+    print('length of the loaded dataset is {}'.format(len(new_vr_ds.getIdList())))
+
+unitTestSaveAndLoad()
