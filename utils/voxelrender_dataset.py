@@ -66,6 +66,8 @@ class Dataset():
         seg_b_list = [[seg_b_dir.split('/')[-2], seg_b_dir]
                       for seg_b_dir in seg_b_list]
 
+        self.labled_id_list = [x[0] for x in label_list]
+        self.coarse_seg_id_list = [x[0] for x in seg_f_list]
         # this is for debug use
         # print('img_list_content:', img_list[:3])
         # print('label_list_content:', label_list[:3])
@@ -113,12 +115,10 @@ class Dataset():
         return self.id_list
 
     def getLabeledIdList(self):
-        raise NotImplementedError("not implemented")
-        pass
+        return self.labled_id_list
 
     def getCoarseSegIdList(self):
-        raise NotImplementedError("not implemented")
-        pass
+        return self.coarse_seg_id_list
 
     def getImage(self, _id):
         image = self.dataset[_id].image
@@ -163,13 +163,13 @@ class Dataset():
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
-    def setSegPossibility(self,_id):
+    def setSegPossibility(self, _id, path):
         if self.dataset[_id] is not None:
             self.dataset[_id].coarse_seg_float = path
         else:
             raise ValueError('{} is not a valid patient id'.format(_id))
 
-    def setSeg(self,_id):
+    def setSeg(self, _id, path):
         if self.dataset[_id] is not None:
             self.dataset[_id].coarse_seg_bool = path
         else:
