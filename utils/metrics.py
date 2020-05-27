@@ -14,7 +14,7 @@ def diceCoef(label, pred, smooth=1):
 
 
 def averageDiceCoef(label, pred, smooth=1):
-    return numpy.mean(diceCoef(label, pred, smooth))
+    return np.mean(diceCoef(label, pred, smooth))
 
 
 def singleDiceCoef(y_true, y_pred, smooth=1):
