@@ -15,7 +15,7 @@ def averageDiceCoef(label, pred, smooth=1):
     return numpy.mean(diceCoef(label,pred,smooth))
 
 def singleDiceCoef(y_true, y_pred, smooth=1):
-    intersection = np.sum(y_true * y_pred, axis=[1,2,3])
-    union = np.sum(y_true, axis=[1,2,3]) + np.sum(y_pred, axis=[1,2,3])
-    dice = np.mean((2. * intersection + smooth)/(union + smooth), axis=0)
+    intersection = np.sum(np.multiply(y_true * y_pred))
+    union = np.sum(y_true) + np.sum(y_pred)
+    dice = (2. * intersection + smooth)/(union + smooth)
     return dice
