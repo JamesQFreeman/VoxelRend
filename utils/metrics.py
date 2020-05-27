@@ -1,4 +1,5 @@
-import numpy as K
+import numpy as np
+
 
 def diceCoef(label,pred,smooth=1):
     num_class = max(np.max(label),np.max(pred))+1
@@ -14,7 +15,7 @@ def averageDiceCoef(label, pred, smooth=1):
     return numpy.mean(diceCoef(label,pred,smooth))
 
 def singleDiceCoef(y_true, y_pred, smooth=1):
-    intersection = K.sum(y_true * y_pred, axis=[1,2,3])
-    union = K.sum(y_true, axis=[1,2,3]) + K.sum(y_pred, axis=[1,2,3])
-    dice = K.mean((2. * intersection + smooth)/(union + smooth), axis=0)
+    intersection = np.sum(y_true * y_pred, axis=[1,2,3])
+    union = np.sum(y_true, axis=[1,2,3]) + np.sum(y_pred, axis=[1,2,3])
+    dice = np.mean((2. * intersection + smooth)/(union + smooth), axis=0)
     return dice

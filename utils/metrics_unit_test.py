@@ -35,3 +35,5 @@ def unitTestDiceCoef():
         pred = ReadNiiToArray(vr_ds.getSeg(pid))
         print('The dice coef of each class is: {}'.format(diceCoef(label,pred)))
         print('The avg dice is: {}'.format(averageDiceCoef(label,pred)))
+
+unitTestDiceCoef()
