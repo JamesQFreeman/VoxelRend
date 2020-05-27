@@ -24,8 +24,10 @@ ORIGINAL_DATA_DIR = '/home/shengwang/covid'
 
 vr_ds = Dataset(ORIGINAL_DATA_DIR, COARSE_DIRECTION_RESULT_DIR)
 
+
 def ReadNiiToArray(filename):
     return sitk.GetArrayFromImage(sitk.ReadImage(filename))
+
 
 def unitTestDiceCoef():
     five_cases = vr_ds.getCoarseSegIdList()[:5]
@@ -33,7 +35,10 @@ def unitTestDiceCoef():
         print('Patient ID: {}'.format(pid))
         label = ReadNiiToArray(vr_ds.getLabel(pid))
         pred = ReadNiiToArray(vr_ds.getSeg(pid))
-        print('The dice coef of each class is: {}'.format(diceCoef(label,pred)))
-        print('The avg dice is: {}'.format(averageDiceCoef(label,pred)))
+        print('The shape of label and pred are: {} and {}'.format(
+            label.shape, pred.shape))
+        print('The dice coef of each class is: {}'.format(diceCoef(label, pred)))
+        print('The avg dice is: {}'.format(averageDiceCoef(label, pred)))
+
 
 unitTestDiceCoef()
