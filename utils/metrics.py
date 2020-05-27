@@ -4,7 +4,7 @@ import numpy as np
 def diceCoef(label,pred,smooth=1):
     num_class = max(np.max(label),np.max(pred))+1
     dice_coef_class_list = []
-    for c in num_class:
+    for c in range(int(num_class)):
         single_class_label = np.where(label==c,1,0)
         single_class_pred = np.where(pred==c,1,0)
         dice_coef = singleDiceCoef(single_class_label,single_class_pred,smooth)
