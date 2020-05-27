@@ -149,7 +149,7 @@ class Dataset():
             raise ValueError(
                 '{} is not a valid patient id or {} had no seg result'.format(_id, _id))
 
-    def getSeg(slef, _id):
+    def getSeg(self, _id):
         coarse_seg_bool = self.dataset[_id].coarse_seg_bool
         if coarse_seg_bool is not None:
             return coarse_seg_bool
