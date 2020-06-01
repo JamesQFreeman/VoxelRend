@@ -126,3 +126,6 @@ dmypy.json
 
 # my unit test for every file
 test.ipynb
+
+# data
+data/

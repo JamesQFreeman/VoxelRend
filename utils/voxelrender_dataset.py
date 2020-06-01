@@ -15,6 +15,8 @@ class Data():
         self.coarse_seg_float = None
         self.coarse_seg_bool = None
         self.fold_num = None
+        self.labels = {}
+        self.segmentations = {}
 
     def setImage(self, img):
         self.image = img
@@ -30,6 +32,12 @@ class Data():
 
     def setFoldNum(self, fold_num):
         self.fold_num = fold_num
+
+    def setLabels(self, filename,label_name):
+        self.labels[label_name] = filename
+
+    def setSegmentations(self, filename, segmentation_name):
+        self.segmentations[segmentation_name] = filename
 
 
 # Dataset class should be an dict {id:Data,...}
